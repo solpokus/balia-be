@@ -1,2 +1,2 @@
-# kkn-be-master
-This project is for KKN
+# balia-be
+This project is for BALIA

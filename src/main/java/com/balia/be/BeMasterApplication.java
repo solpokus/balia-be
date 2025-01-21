@@ -1,4 +1,4 @@
-package com.kkn.be_master;
+package com.balia.be;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

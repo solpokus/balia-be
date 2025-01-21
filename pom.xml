@@ -8,10 +8,10 @@
 		<version>3.4.2-SNAPSHOT</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.kkn</groupId>
-	<artifactId>be-master</artifactId>
+	<groupId>com.balia</groupId>
+	<artifactId>backend-master</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>be-master</name>
+	<name>backend-master</name>
 	<description>Backend Master</description>
 	<url/>
 	<licenses>
