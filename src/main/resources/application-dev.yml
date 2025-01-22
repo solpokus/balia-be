@@ -1,4 +1,3 @@
 server:
-  port: 8181
   servlet:
-    context-path: /backend
+    context-path: /backend-dev

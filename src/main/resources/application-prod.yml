@@ -1,4 +1,3 @@
 server:
-  port: 8282
   servlet:
-    context-path: /backend-master
+    context-path: /backend-prod
