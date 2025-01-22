@@ -24,6 +24,7 @@ COPY --from=build /usr/src/app/target/*.jar app.jar
 
 #port for the web service
 #EXPOSE 8181
+ENV SPRING_PROFILES_ACTIVE=dev
 
 # Command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
