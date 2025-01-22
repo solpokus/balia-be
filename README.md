@@ -11,5 +11,5 @@ Run step configuration :
 ```bash
 	docker build --tag=balia-be:latest .
 	## docker build --target build -t balia-be:latest .
-	docker run -p 8082:8080 balia-be:latest
+	docker run -p 8081:8080 balia-be:latest
 ```
