@@ -23,7 +23,7 @@ WORKDIR /app
 COPY --from=build /usr/src/app/target/*.jar app.jar
 
 #port for the web service
-EXPOSE 8181
+#EXPOSE 8181
 
 # Command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
