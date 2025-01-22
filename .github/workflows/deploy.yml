@@ -23,7 +23,7 @@ jobs:
       # Step 3: Build Docker Image
       - name: Build and Push Docker Image
         run: |
-          docker build ${{ secrets.DOCKER_USERNAME }}/balia-be:latest .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/balia-be:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/balia-be:latest
 
   deploy:
