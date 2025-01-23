@@ -1,3 +1,5 @@
 spring:
-  application: 
+  application:
     name: be-master
+  profiles:
+    active: ${profile}

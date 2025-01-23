@@ -2,3 +2,33 @@ server:
   port: 8080
   servlet:
     context-path: /backend
+    
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+#    url: jdbc:mysql://host.docker.internal:3306/db_admin_staging?useUnicode=true&characterEncoding=utf8&useSSL=false
+#    username: amien
+#    password: password
+    url: jdbc:mysql://${db-host}:3306/${db-name}?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: ${db-username}
+    password: ${db-password}
+    hikari:
+      minimumIdle: 5
+      maximumPoolSize: 10
+      idleTimeout: 12000
+      connectionTimeout: 30000
+      leakDetectionThreshold: 30000
+      maxLifetime: 180000
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+  jpa:
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    database: PostgreSQL
+#    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database: MYSQL
+    show-sql: true
+    properties:
+      hibernate.jdbc.time_zone: Asia/Jakarta
