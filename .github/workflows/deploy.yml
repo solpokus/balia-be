@@ -55,7 +55,7 @@ jobs:
             docker run -d --name balia-be \
             -p 8181:8080 \
             -e db-host=${{ secrets.DB_HOST }} \
-            -e db_name=${{ secrets.DB_NAME }} \
+            -e db-name=${{ secrets.DB_NAME }} \
             -e db-username=${{ secrets.DB_USERNAME }} \
             -e db-password=${{ secrets.DB_PASSWORD }} \
             ${{ secrets.DOCKER_USERNAME }}/balia-be:latest
