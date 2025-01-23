@@ -52,7 +52,7 @@ jobs:
             | grep -v "latest" | awk '{print $1}' | xargs -r docker rmi
             
             # Run the latest container
-            docker run -d --add-host=host.docker.internal:172.17.0.1 --name balia-be \
+            docker run -d --name balia-be \
             -p 8181:8080 \
             -e db-host=${{ secrets.DB_HOST }} \
             -e db-name=${{ secrets.DB_NAME }} \
