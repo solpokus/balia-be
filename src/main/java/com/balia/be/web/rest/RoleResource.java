@@ -2,6 +2,7 @@ package com.balia.be.web.rest;
 
 import com.balia.be.domain.MRole;
 import com.balia.be.repository.MRoleRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/v1/api/master")
-//@Tag(name = "Role Management", description = "Operations related to role")
+@Tag(name = "Role Management", description = "Operations related to role")
 public class RoleResource {
 
     private final Logger log = LoggerFactory.getLogger(RoleResource.class);
