@@ -17,7 +17,7 @@ spring:
       maximum-pool-size: 10
       idle-timeout: 20000
       connection-timeout: 30000
-      leak-detection-threshold: 2000
+      leak-detection-threshold: 30000
       max-lifetime: 180000
       validation-timeout: 3000
       pool-name: HikariPool-1
