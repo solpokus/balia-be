@@ -5,11 +5,13 @@ import com.balia.be.domain.MRole;
 import com.balia.be.domain.MUser;
 import com.balia.be.repository.MRoleRepository;
 import com.balia.be.repository.MUserRepository;
+import com.balia.be.service.MailService;
 import com.balia.be.service.UserService;
 import com.balia.be.service.dto.UserQuery;
 import com.balia.be.service.util.RandomUtil;
 import com.balia.be.web.rest.payload.request.SignupRequest;
 import com.balia.be.web.rest.util.Constant;
+import jakarta.mail.MessagingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Optional;
@@ -27,6 +30,9 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
 
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    @Autowired
+    MailService mailService;
     
     @Autowired
     MUserRepository userRepository;
@@ -66,6 +72,14 @@ public class UserServiceImpl implements UserService {
         logger.info("Roless {}", roles);
         user.setRoles(roles);
         userRepository.save(user);
+
+        try {
+            mailService.sendCreationEmail(user);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            logger.error("Error MessagingException | UnsupportedEncodingException : {}", e.getMessage());
+//            throw new Exception();
+//            return ResponseEntity.internalServerError().body(new MessageResponse(e.getMessage()));
+        }
         
     }
 

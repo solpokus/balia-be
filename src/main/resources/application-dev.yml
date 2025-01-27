@@ -13,12 +13,14 @@ spring:
     username: ${db-username}
     password: ${db-password}
     hikari:
-      minimumIdle: 5
-      maximumPoolSize: 10
-      idleTimeout: 12000
-      connectionTimeout: 30000
-      leakDetectionThreshold: 30000
-      maxLifetime: 180000
+      minimum-idle: 5
+      maximum-pool-size: 10
+      idle-timeout: 20000
+      connection-timeout: 30000
+      leak-detection-threshold: 2000
+      max-lifetime: 180000
+      validation-timeout: 3000
+      pool-name: HikariPool-1
       data-source-properties:
         cachePrepStmts: true
         prepStmtCacheSize: 250
@@ -30,9 +32,33 @@ spring:
 #    database-platform: org.hibernate.dialect.MySQL8Dialect
     database: MYSQL
     show-sql: true
+#    properties:
+#      hibernate.jdbc.time_zone: Asia/Jakarta
+  mail:
+#    host: mail.balia.ae
+    host: ${mail-host}
+    port: 587
+    username: ${mail-username}
+    password: ${mail-password}
+    protocol: smtp
+    test-connection: false
     properties:
-      hibernate.jdbc.time_zone: Asia/Jakarta
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
 
 application:
   jwtSecret: ${jwt-secret}
   jwtExpirationMs: 86400000
+  baseUrl: https://balia.ae
+  mail:
+    from: admin@balia.ae
+    base-url: https://balia.ae

@@ -12,7 +12,7 @@ MySQL - 8.0.33 : Database - db_admin_staging
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`db_admin_staging` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`db_admin_staging` /*!40100 DEFAULT CHARACTER SET utf8mb4*/ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 USE `db_admin_staging`;
 
@@ -30,7 +30,7 @@ CREATE TABLE `m_about_us` (
   `last_modified_by` varchar(50) DEFAULT NULL,
   `last_modified_date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 /*Data for the table `m_about_us` */
 
@@ -48,7 +48,7 @@ CREATE TABLE `m_articles` (
   `last_modified_by` varchar(50) DEFAULT NULL,
   `last_modified_date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 /*Data for the table `m_articles` */
 
@@ -66,7 +66,7 @@ CREATE TABLE `m_categories` (
   `last_modified_by` varchar(50) DEFAULT NULL,
   `last_modified_date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ;
 
 /*Data for the table `m_categories` */
 
@@ -107,7 +107,7 @@ CREATE TABLE `m_product` (
   PRIMARY KEY (`id`),
   KEY `fk_cat_id` (`m_categories_id`),
   CONSTRAINT `fk_cat_id` FOREIGN KEY (`m_categories_id`) REFERENCES `m_categories` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 /*Data for the table `m_product` */
 
@@ -119,7 +119,7 @@ CREATE TABLE `m_role` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ;
 
 /*Data for the table `m_role` */
 
@@ -138,7 +138,7 @@ CREATE TABLE `m_role_user` (
   KEY `fk_user_id` (`m_user_id`),
   CONSTRAINT `fk_role_id` FOREIGN KEY (`m_role_id`) REFERENCES `m_role` (`id`),
   CONSTRAINT `fk_user_id` FOREIGN KEY (`m_user_id`) REFERENCES `m_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 /*Data for the table `m_role_user` */
 
@@ -167,14 +167,15 @@ CREATE TABLE `m_user` (
   `reset_date` timestamp NULL DEFAULT NULL,
   `last_modified_by` varchar(50) DEFAULT NULL,
   `last_modified_date` timestamp NULL DEFAULT NULL,
+  `mobile_number` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ;
 
 /*Data for the table `m_user` */
 
-insert  into `m_user`(`id`,`login`,`password_hash`,`first_name`,`last_name`,`email`,`image_url`,`activated`,`lang_key`,`activation_key`,`reset_key`,`created_by`,`created_date`,`reset_date`,`last_modified_by`,`last_modified_date`) values 
-(1,'user_admin','$2a$12$U3LsjwZM8dBoja.bSHwlj.gFfC31C0pVssXTEGsA5HDDwsSTF90Hy','User','admin','','',1,NULL,NULL,NULL,'SYSTEM',NULL,NULL,NULL,NULL),
-(2,'user_user','$2a$12$U3LsjwZM8dBoja.bSHwlj.gFfC31C0pVssXTEGsA5HDDwsSTF90Hy','User','User','','',1,NULL,NULL,NULL,'SYSTEM',NULL,NULL,NULL,NULL);
+insert  into `m_user`(`id`,`login`,`password_hash`,`first_name`,`last_name`,`email`,`image_url`,`activated`,`lang_key`,`activation_key`,`reset_key`,`created_by`,`created_date`,`reset_date`,`last_modified_by`,`last_modified_date`,`mobile_number`) values 
+(1,'user_admin','$2a$12$U3LsjwZM8dBoja.bSHwlj.gFfC31C0pVssXTEGsA5HDDwsSTF90Hy','User','admin','','',1,NULL,NULL,NULL,'SYSTEM',NULL,NULL,NULL,NULL,NULL),
+(2,'user_user','$2a$12$U3LsjwZM8dBoja.bSHwlj.gFfC31C0pVssXTEGsA5HDDwsSTF90Hy','User','User','','',1,NULL,NULL,NULL,'SYSTEM',NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `system_parameter` */
 
@@ -186,7 +187,7 @@ CREATE TABLE `system_parameter` (
   `parameter_value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `parameter_name` (`parameter_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=229 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=229 DEFAULT CHARSET=utf8mb4 ;
 
 /*Data for the table `system_parameter` */
 
