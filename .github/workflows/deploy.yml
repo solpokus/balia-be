@@ -58,6 +58,8 @@ jobs:
             -e mail-username=${{ secrets.MAIL_USERNAME }} \
             -e mail-password=${{ secrets.MAIL_PASSWORD }} \
             -e jwt-secret=${{ secrets.JWT_SECRET }} \
+            -e apps-base64key=${{ secrets.APPS_BASE64KEY }} \
+            -e apps-base64iv=${{ secrets.APPS_BASE64IV }} \
             -e db-host=${{ secrets.DB_HOST }} \
             -e db-name=${{ secrets.DB_NAME }} \
             -e db-username=${{ secrets.DB_USERNAME }} \

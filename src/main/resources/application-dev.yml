@@ -58,6 +58,8 @@ spring:
 application:
   jwtSecret: ${jwt-secret}
   jwtExpirationMs: 86400000
+  base64Key: ${apps-base64key}
+  base64Iv: ${apps-base64iv}
   baseUrl: https://balia.ae
   mail:
     from: admin@balia.ae
