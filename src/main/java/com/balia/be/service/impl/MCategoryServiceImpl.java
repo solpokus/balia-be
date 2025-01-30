@@ -51,6 +51,7 @@ public class MCategoryServiceImpl implements MCategoryService {
 
     @Override
     public MCategories update(MCategories mCategories) {
+        log.debug("Request to update MCategories : {}", mCategories);
         String username = SecurityUtils.getCurrentUserLogin();
         
         MCategories newData =  mCategoriesRepository.findOneById(mCategories.getId());  

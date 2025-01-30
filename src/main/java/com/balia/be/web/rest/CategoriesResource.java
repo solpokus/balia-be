@@ -59,7 +59,7 @@ public class CategoriesResource {
      */
     @PostMapping("/m-categories")
     public ResponseEntity<?> createCategory(@RequestBody MCategories mCategories) throws URISyntaxException {
-        log.debug("REST request to save MCategories : {}", mCategories);
+        log.info("REST request to create MCategories : {}", mCategories);
         if (mCategories.getId() != null) {
             return ResponseEntity.badRequest().body(new MessageResponse("A new mCategories cannot already have an ID"));
         }
@@ -80,12 +80,10 @@ public class CategoriesResource {
      */
     @PutMapping("/m-categories")
     public ResponseEntity<?> updateCategories(@RequestBody MCategories mCategories) throws URISyntaxException {
-        log.debug("REST request to update MCategories : {}", mCategories);
+        log.info("REST request to update MCategories : {}", mCategories);
         if (mCategoryService.findOneById(mCategories.getId()) == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("Category ID not exists"));
         }
-        
-        log.info(" data : {}", mCategories);
 
         MCategories result = mCategoryService.update(mCategories);
         return ResponseEntity.ok()

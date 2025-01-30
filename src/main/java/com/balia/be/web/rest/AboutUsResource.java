@@ -59,7 +59,7 @@ public class AboutUsResource {
      */
     @PostMapping("/m-about-us")
     public ResponseEntity<?> createAboutUs(@RequestBody MAboutUs mAboutUs) throws URISyntaxException {
-        log.debug("REST request to save MAboutUs : {}", mAboutUs);
+        log.info("REST request to create MAboutUs : {}", mAboutUs);
         if (mAboutUs.getId() != null) {
             return ResponseEntity.badRequest().body(new MessageResponse("A new mAboutUs cannot already have an ID"));
         }
@@ -80,7 +80,7 @@ public class AboutUsResource {
      */
     @PutMapping("/m-about-us")
     public ResponseEntity<?> updateAboutUs(@RequestBody MAboutUs mAboutUs) throws URISyntaxException {
-        log.debug("REST request to update MAboutUs : {}", mAboutUs);
+        log.info("REST request to update MAboutUs : {}", mAboutUs);
         if (mAboutUsService.findOneById(mAboutUs.getId()) == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("AboutUs ID not exists"));
         }

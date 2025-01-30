@@ -51,6 +51,7 @@ public class MAboutUsServiceImpl implements MAboutUsService {
 
     @Override
     public MAboutUs update(MAboutUs mAboutUs) {
+        log.debug("Request to update MAboutUs : {}", mAboutUs);
         String username = SecurityUtils.getCurrentUserLogin();
         
         MAboutUs newData =  mAboutUsRepository.findOneById(mAboutUs.getId());  
