@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
- * Service class for managing categories.
+ * Service class for managing about-us.
  */
 @Service
 public interface MAboutUsService {
