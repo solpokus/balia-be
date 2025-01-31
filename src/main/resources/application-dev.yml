@@ -54,6 +54,10 @@ spring:
   messages:
     basename: i18n/messages
     encoding: UTF-8
+  servlet: 
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
 
 application:
   jwtSecret: ${jwt-secret}
