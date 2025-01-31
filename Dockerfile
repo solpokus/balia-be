@@ -11,6 +11,11 @@ RUN mvn dependency:resolve
 # Copy the source code
 COPY src ./src
 
+# Create local cdn 
+RUN mkdir -p /app/cdn
+
+VOLUME ["/app/cdn"]
+
 # Build the application
 RUN mvn package -DskipTests
 

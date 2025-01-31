@@ -54,6 +54,7 @@ jobs:
             # Run the latest container
             docker run -d --name balia-be \
             -p 8181:8080 \
+            -v ${{ secrets.CDN_DIR }}:/app/cdn \
             -e mail-host=${{ secrets.MAIL_HOST }} \
             -e mail-username=${{ secrets.MAIL_USERNAME }} \
             -e mail-password=${{ secrets.MAIL_PASSWORD }} \
