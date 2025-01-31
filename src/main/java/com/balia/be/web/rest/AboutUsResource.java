@@ -84,8 +84,6 @@ public class AboutUsResource {
         if (mAboutUsService.findOneById(mAboutUs.getId()) == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("AboutUs ID not exists"));
         }
-        
-        log.info(" data : {}", mAboutUs);
 
         MAboutUs result = mAboutUsService.update(mAboutUs);
         return ResponseEntity.ok()
