@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -43,5 +45,29 @@ public class FileUploadResource {
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed");
         } 
+    }
+
+    @PostMapping("/multiple")
+    public ResponseEntity<?> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
+        List<String> fileUrls = new ArrayList<>();
+
+        for (MultipartFile file : files) {
+            try {
+                File uploadPath = new File(uploadDir);
+                if (!uploadPath.exists()) {
+                    uploadPath.mkdirs();
+                }
+
+                Path filePath = Paths.get(uploadDir, file.getOriginalFilename());
+                Files.write(filePath, file.getBytes());
+
+                fileUrls.add(appCdnUrl + file.getOriginalFilename());
+
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed for " + file.getOriginalFilename());
+            }
+        }
+
+        return ResponseEntity.ok(Map.of("uploadedFiles", fileUrls));
     }
 }
