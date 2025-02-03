@@ -1,9 +1,13 @@
 package com.balia.be.service;
 
 import com.balia.be.domain.MProduct;
+import com.balia.be.domain.MProductImage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * Service class for managing product.
@@ -18,6 +22,8 @@ public interface MProductService {
      * @return the persisted entity
      */
     MProduct save(MProduct mProduct);
+    
+    List<MProductImage> saveWithImage(MProduct mProduct, MultipartFile[] files);
     
     Page<MProduct> getAll(Pageable pageable);
     

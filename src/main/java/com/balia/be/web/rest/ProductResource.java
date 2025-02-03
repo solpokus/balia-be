@@ -1,6 +1,7 @@
 package com.balia.be.web.rest;
 
 import com.balia.be.domain.MProduct;
+import com.balia.be.domain.MProductImage;
 import com.balia.be.service.MProductService;
 import com.balia.be.web.rest.payload.response.MessageResponse;
 import com.balia.be.web.rest.util.HeaderUtil;
@@ -13,8 +14,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -88,6 +91,30 @@ public class ProductResource {
         MProduct result = mProductService.update(mProduct);
         return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, mProduct.getId().toString()))
+                .body(result);
+    }
+
+    /**
+     * POST  /m-products : Create a new mProduct with images.
+     *
+     * @param mProduct the mProduct to create
+     * @param files the files to upload
+     * @return the ResponseEntity with status 201 (Created) and with body the new List<MProductImage>, or with status 400 (Bad Request) if the mProduct has already an ID
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PostMapping(value = "/m-products", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<?> createProductAndImages(
+            @RequestPart("metadata") MProduct mProduct,
+            @RequestPart("files") MultipartFile[] files) throws URISyntaxException {
+        
+        log.info("REST request to create MProduct with files : {}, {}", mProduct, files);
+        if (mProduct.getId() != null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("A new mProduct cannot already have an ID"));
+        }
+        
+        List<MProductImage> result = mProductService.saveWithImage(mProduct, files);
+        return ResponseEntity.created(new URI("/v1/api/master/m-products"))
+                .headers(HeaderUtil.createEntityCreationAlert("mProductImage", result.toString()))
                 .body(result);
     }
 }

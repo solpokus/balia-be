@@ -2,24 +2,47 @@ package com.balia.be.service.impl;
 
 import com.balia.be.config.security.SecurityUtils;
 import com.balia.be.domain.MProduct;
+import com.balia.be.domain.MProductImage;
+import com.balia.be.repository.MProductImageRepository;
 import com.balia.be.repository.MProductRepository;
 import com.balia.be.service.MProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class MProductServiceImpl implements MProductService {
 
     private final Logger log = LoggerFactory.getLogger(MProductServiceImpl.class);
+
+    @Value("${application.upload.dir}")
+    private String uploadDir;
+
+    @Value("${application.cdn.url}")
+    private String appCdnUrl;
     
     @Autowired
     MProductRepository mProductRepository; 
+    
+    @Autowired
+    MProductImageRepository mProductImageRepository;
 
     /**
      * Save a mProduct.
@@ -37,6 +60,49 @@ public class MProductServiceImpl implements MProductService {
         mProduct.setCreatedDate(new Date());
 
         return mProductRepository.save(mProduct);
+    }
+
+    @Override
+    public List<MProductImage> saveWithImage(MProduct mProduct, MultipartFile[] files) {
+        log.debug("Request to save MProduct with images : {}, {}", mProduct, files);
+        List<MProductImage> data = new ArrayList<>();
+        
+        
+        String username = SecurityUtils.getCurrentUserLogin();
+        mProduct.setCreatedBy(username);
+        mProduct.setCreatedDate(new Date());
+        
+        save(mProduct);
+
+//        List<String> fileUrls = new ArrayList<>();
+
+        for (MultipartFile file : files) {
+            try {
+                MProductImage mProductImage = new MProductImage();
+                File uploadPath = new File(uploadDir);
+                if (!uploadPath.exists()) {
+                    uploadPath.mkdirs();
+                }
+
+                Path filePath = Paths.get(uploadDir, file.getOriginalFilename());
+                Files.write(filePath, file.getBytes());
+
+//                fileUrls.add(appCdnUrl + file.getOriginalFilename());
+                mProductImage.setCreatedBy(username);
+                mProductImage.setCreatedDate(new Date());
+                mProductImage.setImage(appCdnUrl + file.getOriginalFilename());
+                mProductImage.setOriginalName(appCdnUrl + file.getOriginalFilename());
+                mProductImage.setmProduct(mProduct);
+
+                mProductImageRepository.save(mProductImage);
+                data.add(mProductImage);
+
+            } catch (IOException e) {
+                log.error("File upload failed for {}", file.getOriginalFilename());
+            }
+        }
+
+        return data;
     }
 
     @Override
