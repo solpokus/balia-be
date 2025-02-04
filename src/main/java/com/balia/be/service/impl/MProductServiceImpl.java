@@ -6,14 +6,13 @@ import com.balia.be.domain.MProductImage;
 import com.balia.be.repository.MProductImageRepository;
 import com.balia.be.repository.MProductRepository;
 import com.balia.be.service.MProductService;
+import com.balia.be.service.util.RandomUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +24,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class MProductServiceImpl implements MProductService {
@@ -74,8 +72,6 @@ public class MProductServiceImpl implements MProductService {
         
         save(mProduct);
 
-//        List<String> fileUrls = new ArrayList<>();
-
         for (MultipartFile file : files) {
             try {
                 MProductImage mProductImage = new MProductImage();
@@ -90,8 +86,8 @@ public class MProductServiceImpl implements MProductService {
 //                fileUrls.add(appCdnUrl + file.getOriginalFilename());
                 mProductImage.setCreatedBy(username);
                 mProductImage.setCreatedDate(new Date());
-                mProductImage.setImage(appCdnUrl + file.getOriginalFilename());
-                mProductImage.setOriginalName(appCdnUrl + file.getOriginalFilename());
+                mProductImage.setImage(appCdnUrl + RandomUtil.genText() + "-" + file.getOriginalFilename());
+                mProductImage.setOriginalName(file.getOriginalFilename());
                 mProductImage.setmProduct(mProduct);
 
                 mProductImageRepository.save(mProductImage);
@@ -136,4 +132,5 @@ public class MProductServiceImpl implements MProductService {
         
         return newData;
     }
+    
 }
