@@ -19,11 +19,6 @@ public class TestController {
 
     private final Logger log = LogManager.getLogger(TestController.class);
     
-    @GetMapping("/aja")
-    public ResponseEntity<String> showMessage(){
-        System.out.println(new Date() + "Test aja");
-        return ResponseEntity.ok("test executed");
-    
     @GetMapping("/health")
     public ResponseEntity<String> healthCheck(){
         log.info( "Health check OK {}", new Date());
