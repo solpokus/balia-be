@@ -7,6 +7,7 @@ import com.balia.be.repository.MProductImageRepository;
 import com.balia.be.repository.MProductRepository;
 import com.balia.be.service.MProductService;
 import com.balia.be.service.util.RandomUtil;
+import com.balia.be.web.rest.payload.response.MProductResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,5 +133,23 @@ public class MProductServiceImpl implements MProductService {
         
         return newData;
     }
-    
+
+    @Override
+    public Page<MProductResponse> getAllProductPage(Pageable pageable) {
+        Page<MProductResponse> mProductResponsePage;
+
+        mProductResponsePage = mProductRepository.findAllProducts(pageable);
+
+        if (!mProductResponsePage.isEmpty()) {
+            for (MProductResponse data : mProductResponsePage) {
+                if (data.getId() != null) {
+                    List<MProductImage> mProductImages = mProductImageRepository.findAllByMProductId(data.getId());
+                    data.setmProductImages(mProductImages);
+                }
+            }
+        }
+
+        return mProductResponsePage;
+    }
+
 }

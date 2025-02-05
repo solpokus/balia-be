@@ -3,6 +3,7 @@ package com.balia.be.web.rest;
 import com.balia.be.domain.MProduct;
 import com.balia.be.domain.MProductImage;
 import com.balia.be.service.MProductService;
+import com.balia.be.web.rest.payload.response.MProductResponse;
 import com.balia.be.web.rest.payload.response.MessageResponse;
 import com.balia.be.web.rest.util.HeaderUtil;
 import com.balia.be.web.rest.util.PaginationUtil;
@@ -46,9 +47,10 @@ public class ProductResource {
      * @return the ResponseEntity with status 200 (OK) and the list of MProduct in body
      */
     @GetMapping("/m-product")
-    public ResponseEntity<List<MProduct>> getAllMProduct(Pageable pageable) {
+    public ResponseEntity<List<MProductResponse>> getAllMProduct(Pageable pageable) {
         log.info("REST request to get a page of MProduct {}",pageable);
-        Page<MProduct> page = mProductService.getAll(pageable);
+//        Page<MProduct> page = mProductService.getAll(pageable);
+        Page<MProductResponse> page = mProductService.getAllProductPage(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/v1/api/master/m-product");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
