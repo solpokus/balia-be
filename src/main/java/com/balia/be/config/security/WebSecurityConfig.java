@@ -59,8 +59,9 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/v1/api/auth/**").permitAll()
-                                .requestMatchers("/v1/api/master/**").permitAll()
+                                .requestMatchers("/v1/api/master/**").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/api/users/**").permitAll()
+                                .requestMatchers("/test/**").permitAll()
                                 .requestMatchers("/upload").hasRole("ADMIN")
                                 .requestMatchers(SWAGGER_WHITELIST).permitAll()
                                 .anyRequest().authenticated()

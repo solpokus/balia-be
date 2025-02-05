@@ -23,6 +23,10 @@ public class TestController {
     public ResponseEntity<String> showMessage(){
         System.out.println(new Date() + "Test aja");
         return ResponseEntity.ok("test executed");
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck(){
+        log.info( "Health check OK {}", new Date());
+        return ResponseEntity.ok("SERVICE UP");
     }
 
     @GetMapping("/user")
