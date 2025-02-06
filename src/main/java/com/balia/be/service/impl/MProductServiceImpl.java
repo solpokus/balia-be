@@ -8,6 +8,7 @@ import com.balia.be.repository.MProductRepository;
 import com.balia.be.service.MProductService;
 import com.balia.be.service.util.RandomUtil;
 import com.balia.be.web.rest.payload.response.MProductResponse;
+import com.balia.be.web.rest.payload.response.dto.MProductImageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MProductServiceImpl implements MProductService {
@@ -144,7 +146,14 @@ public class MProductServiceImpl implements MProductService {
             for (MProductResponse data : mProductResponsePage) {
                 if (data.getId() != null) {
                     List<MProductImage> mProductImages = mProductImageRepository.findAllByMProductId(data.getId());
-                    data.setmProductImages(mProductImages);
+                    if (!mProductImages.isEmpty()) {
+                        List<MProductImageDTO> mProductImageDTOS = mProductImages.stream()
+                                .map(m -> new MProductImageDTO(
+                                        m.getId(), m.getOriginalName(), m.getImage(), m.getCreatedBy(), 
+                                        m.getCreatedDate(), m.getLastModifiedBy(), m.getLastModifiedDate()
+                                )).collect(Collectors.toList());
+                        data.setmProductImages(mProductImageDTOS);
+                    }
                 }
             }
         }

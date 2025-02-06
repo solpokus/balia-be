@@ -1,7 +1,7 @@
 package com.balia.be.web.rest.payload.response;
 
 import com.balia.be.domain.MCategories;
-import com.balia.be.domain.MProductImage;
+import com.balia.be.web.rest.payload.response.dto.MProductImageDTO;
 
 import java.util.Date;
 import java.util.List;
@@ -21,7 +21,7 @@ public class MProductResponse {
     private Date createdDate;
     private String lastModifiedBy;
     private Date lastModifiedDate;
-    private List<MProductImage> mProductImages;
+    private List<MProductImageDTO> mProductImages;
 
     public Long getId() {
         return id;
@@ -135,16 +135,16 @@ public class MProductResponse {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public List<MProductImage> getmProductImages() {
+    public List<MProductImageDTO> getmProductImages() {
         return mProductImages;
     }
 
-    public void setmProductImages(List<MProductImage> mProductImages) {
+    public void setmProductImages(List<MProductImageDTO> mProductImages) {
         this.mProductImages = mProductImages;
     }
 
-    public MProductResponse(Long id, String name, String sku, Integer price, String currency, Integer stock, Integer status, 
-                            String shortDescription, String longDescription, MCategories mCategories, String createdBy, 
+    public MProductResponse(Long id, String name, String sku, Integer price, String currency, Integer stock, Integer status,
+                            String shortDescription, String longDescription, MCategories mCategories, String createdBy,
                             Date createdDate, String lastModifiedBy, Date lastModifiedDate) {
         this.id = id;
         this.name = name;
