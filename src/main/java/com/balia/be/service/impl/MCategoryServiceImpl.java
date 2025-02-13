@@ -4,6 +4,7 @@ import com.balia.be.config.security.SecurityUtils;
 import com.balia.be.domain.MCategories;
 import com.balia.be.repository.MCategoriesRepository;
 import com.balia.be.service.MCategoryService;
+import com.balia.be.web.rest.payload.response.dto.MCategoryResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MCategoryServiceImpl implements MCategoryService {
@@ -63,5 +66,11 @@ public class MCategoryServiceImpl implements MCategoryService {
         mCategoriesRepository.save(newData);
         
         return newData;
+    }
+
+    @Override
+    public List<MCategoryResponse> getAllCategoriesWithChildren() {
+        List<MCategories> categories = mCategoriesRepository.findAllWithChildren();
+        return categories.stream().map(MCategoryResponse::fromEntity).collect(Collectors.toList());
     }
 }

@@ -5,7 +5,9 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -42,6 +44,13 @@ public class MCategories implements Serializable {
 
     @Column(name = "status")
     private Integer status;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id") // Self-referencing foreign key
+    private MCategories parent;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MCategories> children = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -105,6 +114,22 @@ public class MCategories implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public MCategories getParent() {
+        return parent;
+    }
+
+    public void setParent(MCategories parent) {
+        this.parent = parent;
+    }
+
+    public List<MCategories> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<MCategories> children) {
+        this.children = children;
     }
 
     @Override

@@ -1,9 +1,12 @@
 package com.balia.be.service;
 
 import com.balia.be.domain.MCategories;
+import com.balia.be.web.rest.payload.response.dto.MCategoryResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Service class for managing categories.
@@ -24,5 +27,7 @@ public interface MCategoryService {
     MCategories findOneById(Long mCategoriesId);
     
     MCategories update(MCategories mCategories);
+
+    public List<MCategoryResponse> getAllCategoriesWithChildren();
     
 }

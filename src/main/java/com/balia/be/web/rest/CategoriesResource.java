@@ -3,6 +3,7 @@ package com.balia.be.web.rest;
 import com.balia.be.domain.MCategories;
 import com.balia.be.service.MCategoryService;
 import com.balia.be.web.rest.payload.response.MessageResponse;
+import com.balia.be.web.rest.payload.response.dto.MCategoryResponse;
 import com.balia.be.web.rest.util.HeaderUtil;
 import com.balia.be.web.rest.util.PaginationUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -89,5 +90,17 @@ public class CategoriesResource {
         return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, mCategories.getId().toString()))
                 .body(result);
+    }
+
+    /**
+     * GET  /m-categories/all : get all the MCategories.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of MCategoryResponse in body
+     */
+    @GetMapping("/m-categories/all")
+    public ResponseEntity<List<MCategoryResponse>> getAllMCategoriesWithChild() {
+        log.info("REST request to get all of MCategories");
+        List<MCategoryResponse> page = mCategoryService.getAllCategoriesWithChildren();
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 }
