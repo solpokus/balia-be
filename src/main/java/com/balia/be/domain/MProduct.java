@@ -39,6 +39,12 @@ public class MProduct implements Serializable {
 
     @Column(name = "status", nullable = false)
     private Integer status;
+
+    @Column(name = "color", nullable = false)
+    private String color;
+
+    @Column(name = "size", nullable = false)
+    private String size;
     
     @Column(name = "short_description")
     private String shortDescription;
@@ -60,6 +66,12 @@ public class MProduct implements Serializable {
 
     @Column(name = "last_modified_date")
     private Date lastModifiedDate;
+
+    @Column(name = "sustainability_feature")
+    private String sustainabilityFeature;
+
+    @Column(name = "material")
+    private String material;
 
     public Long getId() {
         return id;
@@ -115,6 +127,22 @@ public class MProduct implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public String getShortDescription() {
@@ -173,6 +201,22 @@ public class MProduct implements Serializable {
         this.lastModifiedDate = lastModifiedDate;
     }
 
+    public String getSustainabilityFeature() {
+        return sustainabilityFeature;
+    }
+
+    public void setSustainabilityFeature(String sustainabilityFeature) {
+        this.sustainabilityFeature = sustainabilityFeature;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -195,6 +239,6 @@ public class MProduct implements Serializable {
 
     @Override
     public String toString() {
-        return "MProduct{" + "id=" + id + ", name='" + name + '\'' + ", sku='" + sku + '\'' + ", price=" + price + ", currency='" + currency + '\'' + ", stock=" + stock + ", status=" + status + ", shortDescription='" + shortDescription + '\'' + ", longDescription='" + longDescription + '\'' + ", mCategories=" + mCategories + ", createdBy='" + createdBy + '\'' + ", createdDate=" + createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate + '}';
+        return "MProduct{" + "id=" + id + ", name='" + name + '\'' + ", sku='" + sku + '\'' + ", price=" + price + ", currency='" + currency + '\'' + ", stock=" + stock + ", status=" + status + ", color='" + color + '\'' + ", size='" + size + '\'' + ", shortDescription='" + shortDescription + '\'' + ", longDescription='" + longDescription + '\'' + ", mCategories=" + mCategories + ", createdBy='" + createdBy + '\'' + ", createdDate=" + createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate + ", sustainabilityFeature='" + sustainabilityFeature + '\'' + ", material='" + material + '\'' + '}';
     }
 }

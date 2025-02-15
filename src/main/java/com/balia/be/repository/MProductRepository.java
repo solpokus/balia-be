@@ -20,10 +20,10 @@ public interface MProductRepository extends JpaRepository<MProduct, Long> {
     MProduct findOneById(Long id);
 
     @Query(value = "SELECT new com.balia.be.web.rest.payload.response.MProductResponse( mp.id , mp.name, " 
-            + " mp.sku, mp.price, mp.currency, mp.stock, mp.status, "
-            + " mp.shortDescription, mp.longDescription , mc, "
+            + " mp.sku, mp.price, mp.currency, mp.stock, mp.status, mp.color, mp.size, "
+            + " mp.shortDescription, mp.longDescription , mc.Id, "
             + " mp.createdBy , mp.createdDate , mp.lastModifiedBy , "
-            + " mp.lastModifiedDate ) "
+            + " mp.lastModifiedDate , mp.sustainabilityFeature, mp.material) "
             + " FROM MProduct mp "
             + " LEFT JOIN MCategories mc on mp.mCategories.id = mc.id ")
 //            + "WHERE (?1 IS NULL OR tr.mStatus.Id IN ?1) ")

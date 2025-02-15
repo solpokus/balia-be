@@ -1,6 +1,5 @@
 package com.balia.be.web.rest.payload.response;
 
-import com.balia.be.domain.MCategories;
 import com.balia.be.web.rest.payload.response.dto.MProductImageDTO;
 
 import java.util.Date;
@@ -14,13 +13,17 @@ public class MProductResponse {
     private String currency;
     private Integer stock;
     private Integer status;
+    private String color;
+    private String size;
     private String shortDescription;
     private String longDescription;
-    private MCategories mCategories;
+    private Long mCategoriesId;
     private String createdBy;
     private Date createdDate;
     private String lastModifiedBy;
     private Date lastModifiedDate;
+    private String sustainabilityFeature;
+    private String material;
     private List<MProductImageDTO> mProductImages;
 
     public Long getId() {
@@ -79,6 +82,22 @@ public class MProductResponse {
         this.status = status;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
     public String getShortDescription() {
         return shortDescription;
     }
@@ -95,12 +114,12 @@ public class MProductResponse {
         this.longDescription = longDescription;
     }
 
-    public MCategories getmCategories() {
-        return mCategories;
+    public Long getmCategoriesId() {
+        return mCategoriesId;
     }
 
-    public void setmCategories(MCategories mCategories) {
-        this.mCategories = mCategories;
+    public void setmCategoriesId(Long mCategoriesId) {
+        this.mCategoriesId = mCategoriesId;
     }
 
     public String getCreatedBy() {
@@ -135,6 +154,22 @@ public class MProductResponse {
         this.lastModifiedDate = lastModifiedDate;
     }
 
+    public String getSustainabilityFeature() {
+        return sustainabilityFeature;
+    }
+
+    public void setSustainabilityFeature(String sustainabilityFeature) {
+        this.sustainabilityFeature = sustainabilityFeature;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
     public List<MProductImageDTO> getmProductImages() {
         return mProductImages;
     }
@@ -144,8 +179,8 @@ public class MProductResponse {
     }
 
     public MProductResponse(Long id, String name, String sku, Integer price, String currency, Integer stock, Integer status,
-                            String shortDescription, String longDescription, MCategories mCategories, String createdBy,
-                            Date createdDate, String lastModifiedBy, Date lastModifiedDate) {
+                            String color, String size, String shortDescription, String longDescription, Long mCategoriesId, String createdBy,
+                            Date createdDate, String lastModifiedBy, Date lastModifiedDate, String sustainabilityFeature, String material) {
         this.id = id;
         this.name = name;
         this.sku = sku;
@@ -153,13 +188,17 @@ public class MProductResponse {
         this.currency = currency;
         this.stock = stock;
         this.status = status;
+        this.color = color;
+        this.size = size;
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
-        this.mCategories = mCategories;
+        this.mCategoriesId = mCategoriesId;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
         this.lastModifiedBy = lastModifiedBy;
         this.lastModifiedDate = lastModifiedDate;
+        this.sustainabilityFeature = sustainabilityFeature;
+        this.material = material;
     }
     
     public MProductResponse(){
@@ -170,6 +209,6 @@ public class MProductResponse {
 
     @Override
     public String toString() {
-        return "MProductResponse{" + "id=" + id + ", name='" + name + '\'' + ", sku='" + sku + '\'' + ", price=" + price + ", currency='" + currency + '\'' + ", stock=" + stock + ", status=" + status + ", shortDescription='" + shortDescription + '\'' + ", longDescription='" + longDescription + '\'' + ", mCategories=" + mCategories + ", createdBy='" + createdBy + '\'' + ", createdDate=" + createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate + ", mProductImages=" + mProductImages + '}';
+        return "MProductResponse{" + "id=" + id + ", name='" + name + '\'' + ", sku='" + sku + '\'' + ", price=" + price + ", currency='" + currency + '\'' + ", stock=" + stock + ", status=" + status + ", color='" + color + '\'' + ", size='" + size + '\'' + ", shortDescription='" + shortDescription + '\'' + ", longDescription='" + longDescription + '\'' + ", mCategoriesId=" + mCategoriesId + ", createdBy='" + createdBy + '\'' + ", createdDate=" + createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate + ", sustainabilityFeature='" + sustainabilityFeature + '\'' + ", material='" + material + '\'' + ", mProductImages=" + mProductImages + '}';
     }
 }
