@@ -43,8 +43,8 @@ public class MCategoryServiceImpl implements MCategoryService {
     }
 
     @Override
-    public Page<MCategories> getAll(Pageable pageable) {
-        return mCategoriesRepository.findAll(pageable);
+    public Page<MCategoryResponse> getAll(Pageable pageable) {
+        return mCategoriesRepository.findAllNativeQuery(pageable);
     }
 
     @Override

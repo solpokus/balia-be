@@ -11,6 +11,7 @@ public class MCategoryResponse {
     private String name;
     private Integer status;
     private List<MCategoryResponse> child;
+    private Long parentId;
 
     public Long getId() {
         return id;
@@ -42,6 +43,21 @@ public class MCategoryResponse {
 
     public void setChild(List<MCategoryResponse> child) {
         this.child = child;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public MCategoryResponse(Long id, String name, Integer status, Long parentId) {
+        this.id = id;
+        this.name = name;
+        this.status = status;
+        this.parentId = parentId;
     }
 
     public MCategoryResponse(Long id, String name, Integer status, List<MCategoryResponse> child) {

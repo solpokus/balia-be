@@ -44,9 +44,9 @@ public class CategoriesResource {
      * @return the ResponseEntity with status 200 (OK) and the list of MCategories in body
      */
     @GetMapping("/m-categories")
-    public ResponseEntity<List<MCategories>> getAllMCategories(Pageable pageable) {
+    public ResponseEntity<List<MCategoryResponse>> getAllMCategories(Pageable pageable) {
         log.info("REST request to get a page of MCategories {}",pageable);
-        Page<MCategories> page = mCategoryService.getAll(pageable);
+        Page<MCategoryResponse> page = mCategoryService.getAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/v1/api/master/m-categories");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

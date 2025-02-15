@@ -22,7 +22,7 @@ public interface MCategoryService {
      */
     MCategories save(MCategories mCategories);
     
-    Page<MCategories> getAll(Pageable pageable);
+    Page<MCategoryResponse> getAll(Pageable pageable);
     
     MCategories findOneById(Long mCategoriesId);
     
