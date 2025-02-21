@@ -5,6 +5,7 @@ import com.balia.be.config.security.service.UserDetailsImpl;
 import com.balia.be.domain.MUser;
 import com.balia.be.repository.MUserRepository;
 import com.balia.be.service.UserService;
+import com.balia.be.service.util.RegexUtil;
 import com.balia.be.web.rest.payload.request.LoginRequest;
 import com.balia.be.web.rest.payload.request.SignupRequest;
 import com.balia.be.web.rest.payload.response.JwtResponse;
@@ -49,8 +50,8 @@ public class AuthResource {
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         logger.info("REST request to login loginRequest : {}", loginRequest);
 
-        if(loginRequest.getEmail() != null && !loginRequest.getEmail().isEmpty()) {
-            MUser user = userRepository.findByEmail(loginRequest.getEmail());
+        if(loginRequest.getUsername() != null && RegexUtil.isValidEmail(loginRequest.getUsername())) {
+            MUser user = userRepository.findByEmail(loginRequest.getUsername());
             if (user == null) {
                 return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
             } else if (!user.getLogin().isEmpty()) {
