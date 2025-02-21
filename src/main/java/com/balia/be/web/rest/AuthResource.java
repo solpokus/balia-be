@@ -47,6 +47,16 @@ public class AuthResource {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        logger.info("REST request to login loginRequest : {}", loginRequest);
+
+        if(loginRequest.getEmail() != null && !loginRequest.getEmail().isEmpty()) {
+            MUser user = userRepository.findByEmail(loginRequest.getEmail());
+            if (user == null) {
+                return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
+            } else if (!user.getLogin().isEmpty()) {
+                loginRequest.setUsername(user.getLogin());
+            }
+        }
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -55,8 +65,6 @@ public class AuthResource {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
-        
-        MUser mUser = userService.getUserById(userDetails.getId());
 
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getEmail(), roles, userDetails.getFirstName()));
     }
