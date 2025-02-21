@@ -19,6 +19,9 @@ public interface MUserRepository extends JpaRepository<MUser, Long> {
     @Query("SELECT u FROM MUser u WHERE u.activationKey = ?1")
     public MUser findByActivationKey(String code);
 
+    @Query("SELECT u FROM MUser u WHERE u.email = ?1")
+    public MUser findByEmail(String email);
+
     Optional<MUser> findOneWithAuthoritiesByLogin(String username);
     
     MUser findOneById(Long userId);

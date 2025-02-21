@@ -119,4 +119,21 @@ public class UserServiceImpl implements UserService {
     public Page<MUser> findAllByActivated(Pageable pageable, UserQuery userQuery) {
         return userRepository.findAllByActivated(pageable, userQuery.getActive());
     }
+
+    @Override
+    public boolean resendVerify(String email) {
+        MUser user = userRepository.findByEmail(email);
+
+        if (user == null || user.getActivationKey().isEmpty()) {
+            return false;
+        } else {
+            try {
+                mailService.sendCreationEmail(user);
+            } catch (MessagingException | UnsupportedEncodingException e) {
+                logger.error("Error resendVerify MessagingException | UnsupportedEncodingException : {}", e.getMessage());
+            }
+
+            return true;
+        }
+    }
 }

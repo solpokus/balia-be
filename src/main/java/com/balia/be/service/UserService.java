@@ -22,4 +22,6 @@ public interface UserService {
     MUser getUserById(Long id);
     
     Page<MUser> findAllByActivated(Pageable pageable, UserQuery userQuery);
+    
+    boolean resendVerify(String email);
 }

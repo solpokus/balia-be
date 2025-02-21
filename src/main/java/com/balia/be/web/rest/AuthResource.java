@@ -97,4 +97,18 @@ public class AuthResource {
                     .ok(new MessageResponse("Link nya sudah tidak bisa digunakan, username "+user.getLogin()+" sudah aktif dan di update passwordnya"));
         }
     }
+
+    @GetMapping("/verify/resend")
+    public ResponseEntity<?> resendVerifyUser(String email) {
+        logger.info("REST request to resend email verification : {} ", email);
+        if (email == null || email.isEmpty()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Email cannot be null!"));
+        }
+
+        if (userService.resendVerify(email)) {
+            return ResponseEntity.ok(new MessageResponse("User resend verification successfully!"));
+        } else {
+            return ResponseEntity.badRequest().body(new MessageResponse("Email not found"));
+        }
+    }
 }
