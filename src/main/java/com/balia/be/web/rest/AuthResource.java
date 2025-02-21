@@ -116,7 +116,7 @@ public class AuthResource {
         if (userService.resendVerify(email)) {
             return ResponseEntity.ok(new MessageResponse("User resend verification successfully!"));
         } else {
-            return ResponseEntity.badRequest().body(new MessageResponse("Email not found"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Email not found!"));
         }
     }
 }
