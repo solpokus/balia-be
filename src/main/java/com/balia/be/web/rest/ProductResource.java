@@ -3,10 +3,12 @@ package com.balia.be.web.rest;
 import com.balia.be.domain.MProduct;
 import com.balia.be.domain.MProductImage;
 import com.balia.be.service.MProductService;
+import com.balia.be.web.rest.payload.request.ProductRequest;
 import com.balia.be.web.rest.payload.response.MProductResponse;
 import com.balia.be.web.rest.payload.response.MessageResponse;
 import com.balia.be.web.rest.util.HeaderUtil;
 import com.balia.be.web.rest.util.PaginationUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,22 +101,75 @@ public class ProductResource {
     /**
      * POST  /m-products : Create a new mProduct with images.
      *
-     * @param mProduct the mProduct to create
+     * @param metadataProduct the mProduct to create
      * @param files the files to upload
      * @return the ResponseEntity with status 201 (Created) and with body the new List<MProductImage>, or with status 400 (Bad Request) if the mProduct has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping(value = "/m-products", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<?> createProductAndImages(
-            @RequestPart("metadata") MProduct mProduct,
-            @RequestPart("files") MultipartFile[] files) throws URISyntaxException {
+            @RequestParam("metadata") String metadataProduct,
+            @RequestParam("files") MultipartFile[] files) throws URISyntaxException {
         
-        log.info("REST request to create MProduct with files : {}, {}", mProduct, files);
+        log.info("REST request to create MProduct with files : {}, {}", metadataProduct, files);
+
+        if(metadataProduct.isEmpty()){
+            return ResponseEntity.badRequest().body(new MessageResponse("Please check metadata"));
+        }
+
+        MProduct mProduct;
+        
+        try{
+            // Convert JSON metadata string to Java Object
+            ObjectMapper objectMapper = new ObjectMapper();
+            mProduct = objectMapper.readValue(metadataProduct, MProduct.class);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(new MessageResponse("Metadata is not valid"));
+        }
+        
         if (mProduct.getId() != null) {
             return ResponseEntity.badRequest().body(new MessageResponse("A new mProduct cannot already have an ID"));
         }
         
         List<MProductImage> result = mProductService.saveWithImage(mProduct, files);
+        return ResponseEntity.created(new URI("/v1/api/master/m-products"))
+                .headers(HeaderUtil.createEntityCreationAlert("mProductImage", result.toString()))
+                .body(result);
+    }
+
+    /**
+     * PUT  /m-products : Create a new mProduct with images.
+     *
+     * @param metadataProduct the mProduct to update
+     * @param files the files to upload
+     * @return the ResponseEntity with status 201 (Created) and with body the new List<MProductImage>, or with status 400 (Bad Request) if the mProduct has already an ID
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PutMapping(value = "/m-products", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<?> updateProductAndImages(
+            @RequestParam("metadata") String metadataProduct,
+            @RequestParam("files") MultipartFile[] files) throws URISyntaxException {
+
+        log.info("REST request to update MProduct with files : {}, {}", metadataProduct, files);
+
+        if(metadataProduct.isEmpty()){
+            return ResponseEntity.badRequest().body(new MessageResponse("Please check metadata"));
+        }
+
+        ProductRequest productRequest;
+
+        try{
+            // Convert JSON metadata string to Java Object
+            ObjectMapper objectMapper = new ObjectMapper();
+            productRequest = objectMapper.readValue(metadataProduct, ProductRequest.class);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(new MessageResponse("Metadata is not valid"));
+        }
+
+        List<MProductImage> result = mProductService.updateWithImage(productRequest, files);
+        if(result.isEmpty()){
+            return ResponseEntity.badRequest().body(new MessageResponse("Metadata is not valid"));
+        }
         return ResponseEntity.created(new URI("/v1/api/master/m-products"))
                 .headers(HeaderUtil.createEntityCreationAlert("mProductImage", result.toString()))
                 .body(result);
