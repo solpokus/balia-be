@@ -4,6 +4,7 @@ import com.balia.be.domain.MProduct;
 import com.balia.be.domain.MProductImage;
 import com.balia.be.web.rest.payload.request.ProductRequest;
 import com.balia.be.web.rest.payload.response.MProductResponse;
+import com.balia.be.web.rest.payload.response.ProductUpdateResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,8 @@ public interface MProductService {
     MProduct save(MProduct mProduct);
     
     List<MProductImage> saveWithImage(MProduct mProduct, MultipartFile[] files);
-    
-    List<MProductImage> updateWithImage(ProductRequest mProduct, MultipartFile[] files);
+
+    ProductUpdateResponse updateWithImage(ProductRequest mProduct, MultipartFile[] files);
     
     Page<MProduct> getAll(Pageable pageable);
     

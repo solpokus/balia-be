@@ -6,6 +6,8 @@ import com.balia.be.service.MProductService;
 import com.balia.be.web.rest.payload.request.ProductRequest;
 import com.balia.be.web.rest.payload.response.MProductResponse;
 import com.balia.be.web.rest.payload.response.MessageResponse;
+import com.balia.be.web.rest.payload.response.ProductUpdateResponse;
+import com.balia.be.web.rest.util.Constant;
 import com.balia.be.web.rest.util.HeaderUtil;
 import com.balia.be.web.rest.util.PaginationUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -152,26 +154,32 @@ public class ProductResource {
 
         log.info("REST request to update MProduct with files : {}, {}", metadataProduct, files);
 
-        if(metadataProduct.isEmpty()){
-            return ResponseEntity.badRequest().body(new MessageResponse("Please check metadata"));
+        if (metadataProduct.isEmpty()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Please check metadata, metadata is not valid"));
         }
 
         ProductRequest productRequest;
+        ProductUpdateResponse response;
 
-        try{
+        try {
             // Convert JSON metadata string to Java Object
             ObjectMapper objectMapper = new ObjectMapper();
             productRequest = objectMapper.readValue(metadataProduct, ProductRequest.class);
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(new MessageResponse("Metadata is not valid"));
+
+            response = mProductService.updateWithImage(productRequest, files);
+
+            if (!(Constant.Status.OK).equals(response.getStatus())) {
+                return ResponseEntity.badRequest().body(response);
+            }
+
+        } catch (Exception e) {
+            log.error("updateProductAndImages - Exception : {}", e.getLocalizedMessage());
+            return ResponseEntity.internalServerError().body(new MessageResponse(Constant.Status.ERROR));
         }
 
-        List<MProductImage> result = mProductService.updateWithImage(productRequest, files);
-        if(result.isEmpty()){
-            return ResponseEntity.badRequest().body(new MessageResponse("Metadata is not valid"));
-        }
-        return ResponseEntity.created(new URI("/v1/api/master/m-products"))
-                .headers(HeaderUtil.createEntityCreationAlert("mProductImage", result.toString()))
-                .body(result);
+        return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, response.toString()))
+                .body(response);
+
     }
 }
