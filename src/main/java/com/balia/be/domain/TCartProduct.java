@@ -21,6 +21,10 @@ public class TCartProduct implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @ManyToOne
+    @JoinColumn(name = "t_cart_id", nullable = false)
+    private TCart tcart;
 
     @ManyToOne
     private MProduct mProduct;
@@ -29,16 +33,13 @@ public class TCartProduct implements Serializable {
     private Integer qty;
 
     @Column(name = "price", nullable = false)
-    private Integer price;
+    private Double price;
 
     @Column(name = "special_price", nullable = false)
-    private Integer specialPrice;
+    private Double specialPrice;
 
     @Column(name = "currency", nullable = false)
     private String currency;
-    
-    @ManyToOne
-    private TCart tcart;
 
     @Column(name = "created_by", nullable = false)
     private String createdBy;
@@ -60,6 +61,14 @@ public class TCartProduct implements Serializable {
         this.id = id;
     }
 
+    public TCart getTcart() {
+        return tcart;
+    }
+
+    public void setTcart(TCart tcart) {
+        this.tcart = tcart;
+    }
+
     public MProduct getmProduct() {
         return mProduct;
     }
@@ -76,19 +85,19 @@ public class TCartProduct implements Serializable {
         this.qty = qty;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public Integer getSpecialPrice() {
+    public Double getSpecialPrice() {
         return specialPrice;
     }
 
-    public void setSpecialPrice(Integer specialPrice) {
+    public void setSpecialPrice(Double specialPrice) {
         this.specialPrice = specialPrice;
     }
 
@@ -98,14 +107,6 @@ public class TCartProduct implements Serializable {
 
     public void setCurrency(String currency) {
         this.currency = currency;
-    }
-
-    public TCart getTcart() {
-        return tcart;
-    }
-
-    public void setTcart(TCart tcart) {
-        this.tcart = tcart;
     }
 
     public String getCreatedBy() {
@@ -162,6 +163,6 @@ public class TCartProduct implements Serializable {
 
     @Override
     public String toString() {
-        return "TCartProduct{" + "id=" + id + ", mProduct=" + mProduct + ", qty=" + qty + ", price=" + price + ", specialPrice=" + specialPrice + ", currency='" + currency + '\'' + ", tcart=" + tcart + ", createdBy='" + createdBy + '\'' + ", createdDate=" + createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate + '}';
+        return "TCartProduct{" + "id=" + id + ", tcart=" + tcart + ", mProduct=" + mProduct + ", qty=" + qty + ", price=" + price + ", specialPrice=" + specialPrice + ", currency='" + currency + '\'' + ", createdBy='" + createdBy + '\'' + ", createdDate=" + createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate + '}';
     }
 }

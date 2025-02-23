@@ -9,7 +9,9 @@ import com.balia.be.service.MProductService;
 import com.balia.be.service.util.RandomUtil;
 import com.balia.be.web.rest.payload.request.ProductRequest;
 import com.balia.be.web.rest.payload.response.MProductResponse;
+import com.balia.be.web.rest.payload.response.ProductUpdateResponse;
 import com.balia.be.web.rest.payload.response.dto.MProductImageDTO;
+import com.balia.be.web.rest.util.Constant;
 import jakarta.persistence.Column;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,9 +112,11 @@ public class MProductServiceImpl implements MProductService {
     }
 
     @Override
-    public List<MProductImage> updateWithImage(ProductRequest productRequest, MultipartFile[] files) {
+    @Transactional
+    public ProductUpdateResponse updateWithImage(ProductRequest productRequest, MultipartFile[] files) {
         log.debug("Request to update MProduct with images : {}, {}", productRequest, files);
-        List<MProductImage> data = new ArrayList<>();
+
+        ProductUpdateResponse response = new ProductUpdateResponse();
 
         MProduct newData = findOneById(productRequest.getId());
         
@@ -131,38 +135,49 @@ public class MProductServiceImpl implements MProductService {
             newData.setmCategories(productRequest.getmCategories() == null ? newData.getmCategories() : productRequest.getmCategories());
             newData.setSustainabilityFeature(productRequest.getSustainabilityFeature() == null ? newData.getSustainabilityFeature() : productRequest.getSustainabilityFeature());
             newData.setMaterial(productRequest.getMaterial() == null ? newData.getMaterial() : productRequest.getMaterial());
-            mProductRepository.save(newData);
             
             if(files != null){
                 for (MultipartFile file : files) {
-                    try {
-                        MProductImage mProductImage = new MProductImage();
-                        File uploadPath = new File(uploadDir);
-                        if (!uploadPath.exists()) {
-                            uploadPath.mkdirs();
+                    
+                    // Check Image existing
+                    List<MProductImage> mProductImages = mProductImageRepository.findAllByMProductIdAndOriginalName(productRequest.getId(),file.getOriginalFilename());
+                    if(mProductImages.isEmpty()) {
+                        try {
+                            MProductImage mProductImage = new MProductImage();
+                            File uploadPath = new File(uploadDir);
+                            if (!uploadPath.exists()) {
+                                uploadPath.mkdirs();
+                            }
+
+                            Path filePath = Paths.get(uploadDir, file.getOriginalFilename());
+                            Files.write(filePath, file.getBytes());
+
+                            mProductImage.setCreatedBy(username);
+                            mProductImage.setCreatedDate(new Date());
+                            mProductImage.setImage(appCdnUrl + RandomUtil.genText() + "-" + file.getOriginalFilename());
+                            mProductImage.setOriginalName(file.getOriginalFilename());
+                            mProductImage.setmProduct(newData);
+
+                            mProductImageRepository.save(mProductImage);
+
+                        } catch (IOException e) {
+                            log.error("updateWithImage - File upload failed for {}", file.getOriginalFilename());
+                            response.setStatus(Constant.Status.NOT_OK);
                         }
-
-                        Path filePath = Paths.get(uploadDir, file.getOriginalFilename());
-                        Files.write(filePath, file.getBytes());
-
-//                fileUrls.add(appCdnUrl + file.getOriginalFilename());
-                        mProductImage.setCreatedBy(username);
-                        mProductImage.setCreatedDate(new Date());
-                        mProductImage.setImage(appCdnUrl + RandomUtil.genText() + "-" + file.getOriginalFilename());
-                        mProductImage.setOriginalName(file.getOriginalFilename());
-                        mProductImage.setmProduct(newData);
-
-                        mProductImageRepository.save(mProductImage);
-                        data.add(mProductImage);
-
-                    } catch (IOException e) {
-                        log.error("updateWithImage - File upload failed for {}", file.getOriginalFilename());
                     }
                 }
             }
+            
+            mProductRepository.save(newData);
+            
+            response.setStatus(Constant.Status.OK);
+            response.setmProduct(newData);
+        } else {
+            response.setStatus(Constant.Status.NOT_OK);
+            response.setMessage("Product not found");
         }
 
-        return data;
+        return response;
     }
 
     @Override

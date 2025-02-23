@@ -17,4 +17,6 @@ public interface MProductImageRepository extends JpaRepository<MProductImage, Lo
     MProductImage findOneById(Long id);
     
     List<MProductImage> findAllByMProductId(Long mProductId);
+    
+    List<MProductImage> findAllByMProductIdAndOriginalName(Long mProductId, String imageOriginalName);
 }

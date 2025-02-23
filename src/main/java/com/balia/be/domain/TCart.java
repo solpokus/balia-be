@@ -5,7 +5,9 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,20 +24,23 @@ public class TCart implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "price", nullable = false)
-    private Integer price;
+    @ManyToOne
+    private MUser mUser;
 
-    @Column(name = "discount", nullable = false)
-    private Integer discount;
-
-    @Column(name = "voucher", nullable = false)
-    private Integer voucher;
-
-    @Column(name = "currency", nullable = false)
-    private String currency;
+    @OneToMany(mappedBy = "tcart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TCartProduct> cartItems = new ArrayList<>();
 
     @Column(name = "total_price", nullable = false)
-    private Integer totalPrice;
+    private Double totalPrice;
+
+    @Column(name = "total_discount", nullable = false)
+    private Double totalDiscount;
+
+    @Column(name = "final_price", nullable = false)
+    private Double finalPrice;
+    
+    @Column(name = "currency", nullable = false)
+    private String currency;
 
     @Column(name = "created_by", nullable = false)
     private String createdBy;
@@ -57,28 +62,44 @@ public class TCart implements Serializable {
         this.id = id;
     }
 
-    public Integer getPrice() {
-        return price;
+    public List<TCartProduct> getCartItems() {
+        return cartItems;
     }
 
-    public void setPrice(Integer price) {
-        this.price = price;
+    public void setCartItems(List<TCartProduct> cartItems) {
+        this.cartItems = cartItems;
     }
 
-    public Integer getDiscount() {
-        return discount;
+    public MUser getmUser() {
+        return mUser;
     }
 
-    public void setDiscount(Integer discount) {
-        this.discount = discount;
+    public void setmUser(MUser mUser) {
+        this.mUser = mUser;
     }
 
-    public Integer getVoucher() {
-        return voucher;
+    public Double getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setVoucher(Integer voucher) {
-        this.voucher = voucher;
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Double getTotalDiscount() {
+        return totalDiscount;
+    }
+
+    public void setTotalDiscount(Double totalDiscount) {
+        this.totalDiscount = totalDiscount;
+    }
+
+    public Double getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(Double finalPrice) {
+        this.finalPrice = finalPrice;
     }
 
     public String getCurrency() {
@@ -87,14 +108,6 @@ public class TCart implements Serializable {
 
     public void setCurrency(String currency) {
         this.currency = currency;
-    }
-
-    public Integer getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Integer totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public String getCreatedBy() {
@@ -151,6 +164,6 @@ public class TCart implements Serializable {
 
     @Override
     public String toString() {
-        return "TCart{" + "id=" + id + ", price=" + price + ", discount=" + discount + ", voucher=" + voucher + ", currency='" + currency + '\'' + ", totalPrice=" + totalPrice + ", createdBy='" + createdBy + '\'' + ", createdDate=" + createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate + '}';
+        return "TCart{" + "id=" + id + ", mUser=" + mUser + ", cartItems=" + cartItems + ", totalPrice=" + totalPrice + ", totalDiscount=" + totalDiscount + ", finalPrice=" + finalPrice + ", currency='" + currency + '\'' + ", createdBy='" + createdBy + '\'' + ", createdDate=" + createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate + '}';
     }
 }
