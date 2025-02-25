@@ -1,11 +1,9 @@
 package com.balia.be.service;
 
+import com.balia.be.domain.MUser;
 import com.balia.be.domain.TCart;
 import com.balia.be.web.rest.payload.request.CartListRequest;
-import com.balia.be.web.rest.payload.request.CartRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Service class for managing cart.
@@ -22,5 +20,7 @@ public interface CartService {
     TCart addToCart(CartListRequest cartRequest);
 
     TCart save(TCart tCart);
+    
+    TCart getCart(MUser mUser);
     
 }
