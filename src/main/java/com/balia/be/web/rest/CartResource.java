@@ -1,37 +1,25 @@
 package com.balia.be.web.rest;
 
-import com.balia.be.domain.MProduct;
-import com.balia.be.domain.MProductImage;
+import com.balia.be.domain.MUser;
 import com.balia.be.domain.TCart;
 import com.balia.be.service.CartService;
-import com.balia.be.service.MProductService;
+import com.balia.be.service.UserService;
 import com.balia.be.web.rest.payload.request.CartListRequest;
-import com.balia.be.web.rest.payload.request.CartRequest;
-import com.balia.be.web.rest.payload.request.ProductRequest;
 import com.balia.be.web.rest.payload.response.CartResponse;
-import com.balia.be.web.rest.payload.response.MProductResponse;
 import com.balia.be.web.rest.payload.response.MessageResponse;
-import com.balia.be.web.rest.payload.response.ProductUpdateResponse;
 import com.balia.be.web.rest.util.Constant;
 import com.balia.be.web.rest.util.HeaderUtil;
-import com.balia.be.web.rest.util.PaginationUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.Column;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 
 /**
  * REST controller for Cart.
@@ -48,7 +36,44 @@ public class CartResource {
     
     @Autowired
     CartService cartService;
+    
+    @Autowired
+    UserService userService;
 
+    /**
+     * GET  /cart : get cart user.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of TCart in body
+     */
+    @GetMapping("/cart")
+    public ResponseEntity<?> getCart() throws URISyntaxException {
+        log.info("REST request to get Cart : ");
+
+        MUser user = userService.getUserWithAuthorities();
+
+        if (user == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Invalid request"));
+        }
+
+        CartResponse cartResponse = new CartResponse();
+        
+        TCart result = cartService.getCart(user);
+        
+        if( result != null){
+            cartResponse.setCartId(result.getId());
+            cartResponse.setTotalPrice(result.getTotalPrice());
+            cartResponse.setTotalDiscount(result.getTotalDiscount());
+            cartResponse.setFinalPrice(result.getFinalPrice());
+            cartResponse.setCurrency(result.getCurrency());
+            cartResponse.setStatus(Constant.Status.OK);
+            cartResponse.setMessage("Cart found");
+        } else {
+            return ResponseEntity.badRequest().body(new MessageResponse("Cart not found"));
+        }
+        
+        return new ResponseEntity<>(cartResponse, HttpStatus.OK);
+    }
+    
     /**
      * POST  /t-cart : Create a new tCart.
      *
@@ -71,7 +96,12 @@ public class CartResource {
             result = cartService.addToCart(cartRequest);
             if (result.getId() != null) {
                 cartResponse.setCartId(result.getId());
+                cartResponse.setTotalPrice(result.getTotalPrice());
+                cartResponse.setTotalDiscount(result.getTotalDiscount());
+                cartResponse.setFinalPrice(result.getFinalPrice());
+                cartResponse.setCurrency(result.getCurrency());
                 cartResponse.setStatus(Constant.Status.OK);
+                cartResponse.setMessage("Cart successfully added");
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new MessageResponse(e.getLocalizedMessage()));

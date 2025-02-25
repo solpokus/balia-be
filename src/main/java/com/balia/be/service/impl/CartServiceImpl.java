@@ -16,10 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -66,10 +63,14 @@ public class CartServiceImpl implements CartService {
             }
 
             // Find if item already exists in cart
-            Optional<TCartProduct> existingItem = cart.getCartItems().stream().filter(item 
-                    -> item.getmProduct().getId().equals(cartRequest.getmProduct().getId())).findFirst();
+            Optional<TCartProduct> existingItem = cart.getCartItems().stream()
+                    .filter(item -> Objects.equals(item.getmProduct().getId(), cartRequest.getmProduct().getId()))
+                    .findFirst();
 
             if (existingItem.isPresent()) {
+                if (product.getStock() < (existingItem.get().getQty() + cartRequest.getQuantity())) {
+                    throw new RuntimeException("Not enough stock available");
+                }
                 existingItem.get().setQty(existingItem.get().getQty() + cartRequest.getQuantity());
             } else {
                 TCartProduct newItem = new TCartProduct();
@@ -101,6 +102,17 @@ public class CartServiceImpl implements CartService {
     public TCart save(TCart tCart) {
         log.debug("Request to save tCart : {}", tCart);
         return tCartRepository.save(tCart);
+    }
+
+    @Override
+    public TCart getCart(MUser user) throws RuntimeException {
+        TCart cart = tCartRepository.findByMUser(user);
+
+        if (cart != null) {
+            return cart;
+        } else {
+            throw new RuntimeException("Cart not found");
+        }
     }
 
     // Calculate the discount for a product
