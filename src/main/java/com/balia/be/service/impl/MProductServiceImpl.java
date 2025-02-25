@@ -135,6 +135,8 @@ public class MProductServiceImpl implements MProductService {
             newData.setmCategories(productRequest.getmCategories() == null ? newData.getmCategories() : productRequest.getmCategories());
             newData.setSustainabilityFeature(productRequest.getSustainabilityFeature() == null ? newData.getSustainabilityFeature() : productRequest.getSustainabilityFeature());
             newData.setMaterial(productRequest.getMaterial() == null ? newData.getMaterial() : productRequest.getMaterial());
+            newData.setDiscountPercentage(productRequest.getDiscountPercentage() == null ? newData.getDiscountPercentage() : productRequest.getDiscountPercentage());
+            newData.setPreOrder(productRequest.getPreOrder() == null ? newData.getPreOrder() : productRequest.getPreOrder());
             
             if(files != null){
                 for (MultipartFile file : files) {

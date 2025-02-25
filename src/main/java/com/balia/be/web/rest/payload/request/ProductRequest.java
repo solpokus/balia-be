@@ -26,6 +26,8 @@ public class ProductRequest {
     private Date lastModifiedDate;
     private String sustainabilityFeature;
     private String material;
+    private Double discountPercentage;
+    private Integer preOrder;
 
     public Long getId() {
         return id;
@@ -171,6 +173,22 @@ public class ProductRequest {
         this.material = material;
     }
 
+    public Double getDiscountPercentage() {
+        return discountPercentage;
+    }
+
+    public void setDiscountPercentage(Double discountPercentage) {
+        this.discountPercentage = discountPercentage;
+    }
+
+    public Integer getPreOrder() {
+        return preOrder;
+    }
+
+    public void setPreOrder(Integer preOrder) {
+        this.preOrder = preOrder;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -193,6 +211,6 @@ public class ProductRequest {
 
     @Override
     public String toString() {
-        return "ProductRequest{" + "id=" + id + ", name='" + name + '\'' + ", sku='" + sku + '\'' + ", price=" + price + ", currency='" + currency + '\'' + ", stock=" + stock + ", status=" + status + ", color='" + color + '\'' + ", size='" + size + '\'' + ", shortDescription='" + shortDescription + '\'' + ", longDescription='" + longDescription + '\'' + ", mCategories=" + mCategories + ", createdBy='" + createdBy + '\'' + ", createdDate=" + createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate + ", sustainabilityFeature='" + sustainabilityFeature + '\'' + ", material='" + material + '\'' + '}';
+        return "ProductRequest{" + "id=" + id + ", name='" + name + '\'' + ", sku='" + sku + '\'' + ", price=" + price + ", currency='" + currency + '\'' + ", stock=" + stock + ", status=" + status + ", color='" + color + '\'' + ", size='" + size + '\'' + ", shortDescription='" + shortDescription + '\'' + ", longDescription='" + longDescription + '\'' + ", mCategories=" + mCategories + ", createdBy='" + createdBy + '\'' + ", createdDate=" + createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate + ", sustainabilityFeature='" + sustainabilityFeature + '\'' + ", material='" + material + '\'' + ", discountPercentage='" + discountPercentage + '\'' + ", preOrder=" + preOrder + '}';
     }
 }

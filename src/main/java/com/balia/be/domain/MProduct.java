@@ -76,6 +76,9 @@ public class MProduct implements Serializable {
     @Column(name = "discount_percentage")
     private Double discountPercentage;
 
+    @Column(name = "pre_order")
+    private Integer preOrder;
+
     public Long getId() {
         return id;
     }
@@ -228,6 +231,14 @@ public class MProduct implements Serializable {
         this.discountPercentage = discountPercentage;
     }
 
+    public Integer getPreOrder() {
+        return preOrder;
+    }
+
+    public void setPreOrder(Integer preOrder) {
+        this.preOrder = preOrder;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -250,6 +261,6 @@ public class MProduct implements Serializable {
 
     @Override
     public String toString() {
-        return "MProduct{" + "id=" + id + ", name='" + name + '\'' + ", sku='" + sku + '\'' + ", price=" + price + ", currency='" + currency + '\'' + ", stock=" + stock + ", status=" + status + ", color='" + color + '\'' + ", size='" + size + '\'' + ", shortDescription='" + shortDescription + '\'' + ", longDescription='" + longDescription + '\'' + ", mCategories=" + mCategories + ", createdBy='" + createdBy + '\'' + ", createdDate=" + createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate + ", sustainabilityFeature='" + sustainabilityFeature + '\'' + ", material='" + material + '\'' + ", discountPercentage=" + discountPercentage + '}';
+        return "MProduct{" + "id=" + id + ", name='" + name + '\'' + ", sku='" + sku + '\'' + ", price=" + price + ", currency='" + currency + '\'' + ", stock=" + stock + ", status=" + status + ", color='" + color + '\'' + ", size='" + size + '\'' + ", shortDescription='" + shortDescription + '\'' + ", longDescription='" + longDescription + '\'' + ", mCategories=" + mCategories + ", createdBy='" + createdBy + '\'' + ", createdDate=" + createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate + ", sustainabilityFeature='" + sustainabilityFeature + '\'' + ", material='" + material + '\'' + ", discountPercentage=" + discountPercentage + ", preOrder=" + preOrder + '}';
     }
 }
