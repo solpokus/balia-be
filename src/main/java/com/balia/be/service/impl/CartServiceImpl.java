@@ -72,6 +72,7 @@ public class CartServiceImpl implements CartService {
                     throw new RuntimeException("Not enough stock available");
                 }
                 existingItem.get().setQty(existingItem.get().getQty() + cartRequest.getQuantity());
+                existingItem.get().setSpecialPrice(existingItem.get().getSpecialPrice() + calculateDiscount(product));
             } else {
                 TCartProduct newItem = new TCartProduct();
                 newItem.setTcart(cart);
