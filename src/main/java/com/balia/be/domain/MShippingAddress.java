@@ -44,7 +44,7 @@ public class MShippingAddress implements Serializable {
     private String country;
     
     @Column(name = "is_primary")
-    private boolean isPrimary;
+    private Boolean isPrimary = false;
 
     @Column(name = "created_by", nullable = false)
     private String createdBy;
@@ -122,11 +122,11 @@ public class MShippingAddress implements Serializable {
         this.country = country;
     }
 
-    public boolean isPrimary() {
+    public Boolean getPrimary() {
         return isPrimary;
     }
 
-    public void setPrimary(boolean primary) {
+    public void setPrimary(Boolean primary) {
         isPrimary = primary;
     }
 
