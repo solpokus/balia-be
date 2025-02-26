@@ -63,7 +63,7 @@ public class MShippingAddressServiceImpl implements MShippingAddressService {
         newData.setState(mShippingAddress.getState());
         newData.setZipCode(mShippingAddress.getZipCode());
         newData.setCountry(mShippingAddress.getCountry());
-        newData.setPrimary(mShippingAddress.isPrimary());
+        newData.setPrimary(mShippingAddress.getPrimary());
         newData.setLastModifiedBy(username);
         newData.setLastModifiedDate(new Date());
         mShippingAddressRepository.save(newData);
