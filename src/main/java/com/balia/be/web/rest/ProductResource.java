@@ -4,6 +4,7 @@ import com.balia.be.domain.MProduct;
 import com.balia.be.domain.MProductImage;
 import com.balia.be.service.MProductService;
 import com.balia.be.web.rest.payload.request.ProductRequest;
+import com.balia.be.web.rest.payload.request.QueryProduct;
 import com.balia.be.web.rest.payload.response.MProductResponse;
 import com.balia.be.web.rest.payload.response.MessageResponse;
 import com.balia.be.web.rest.payload.response.ProductUpdateResponse;
@@ -58,6 +59,20 @@ public class ProductResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/v1/api/master/m-product");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+    /**
+     * GET  /m-product/by-category : get all the MProduct.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of MProduct in body
+     */
+    @GetMapping("/m-product/by-query")
+    public ResponseEntity<List<MProductResponse>> getAllMProductByQuery(Pageable pageable, QueryProduct queryProduct) {
+        log.info("REST request to get a page of MProduct query {}, {}",pageable, queryProduct);
+        Page<MProductResponse> page = mProductService.getAllProductPageByQuery(pageable, queryProduct);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/v1/api/master/m-product/by-query");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
 
     /**
      * POST  /m-product : Create a new mProduct.

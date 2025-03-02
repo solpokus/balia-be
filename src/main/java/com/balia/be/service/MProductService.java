@@ -3,6 +3,7 @@ package com.balia.be.service;
 import com.balia.be.domain.MProduct;
 import com.balia.be.domain.MProductImage;
 import com.balia.be.web.rest.payload.request.ProductRequest;
+import com.balia.be.web.rest.payload.request.QueryProduct;
 import com.balia.be.web.rest.payload.response.MProductResponse;
 import com.balia.be.web.rest.payload.response.ProductUpdateResponse;
 import org.springframework.data.domain.Page;
@@ -37,5 +38,7 @@ public interface MProductService {
     MProduct update(MProduct mProduct);
     
     Page<MProductResponse> getAllProductPage(Pageable pageable);
+
+    Page<MProductResponse> getAllProductPageByQuery(Pageable pageable, QueryProduct queryProduct);
     
 }
