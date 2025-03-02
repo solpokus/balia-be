@@ -8,6 +8,7 @@ import com.balia.be.repository.MProductRepository;
 import com.balia.be.service.MProductService;
 import com.balia.be.service.util.RandomUtil;
 import com.balia.be.web.rest.payload.request.ProductRequest;
+import com.balia.be.web.rest.payload.request.QueryProduct;
 import com.balia.be.web.rest.payload.response.MProductResponse;
 import com.balia.be.web.rest.payload.response.ProductUpdateResponse;
 import com.balia.be.web.rest.payload.response.dto.MProductImageDTO;
@@ -230,6 +231,31 @@ public class MProductServiceImpl implements MProductService {
                         List<MProductImageDTO> mProductImageDTOS = mProductImages.stream()
                                 .map(m -> new MProductImageDTO(
                                         m.getId(), m.getOriginalName(), m.getImage(), m.getCreatedBy(), 
+                                        m.getCreatedDate(), m.getLastModifiedBy(), m.getLastModifiedDate()
+                                )).collect(Collectors.toList());
+                        data.setmProductImages(mProductImageDTOS);
+                    }
+                }
+            }
+        }
+
+        return mProductResponsePage;
+    }
+
+    @Override
+    public Page<MProductResponse> getAllProductPageByQuery(Pageable pageable, QueryProduct queryProduct) {
+        Page<MProductResponse> mProductResponsePage;
+
+        mProductResponsePage = mProductRepository.findAllProductsByCategoryId(pageable, queryProduct.getCategoryId());
+
+        if (!mProductResponsePage.isEmpty()) {
+            for (MProductResponse data : mProductResponsePage) {
+                if (data.getId() != null) {
+                    List<MProductImage> mProductImages = mProductImageRepository.findAllByMProductId(data.getId());
+                    if (!mProductImages.isEmpty()) {
+                        List<MProductImageDTO> mProductImageDTOS = mProductImages.stream()
+                                .map(m -> new MProductImageDTO(
+                                        m.getId(), m.getOriginalName(), m.getImage(), m.getCreatedBy(),
                                         m.getCreatedDate(), m.getLastModifiedBy(), m.getLastModifiedDate()
                                 )).collect(Collectors.toList());
                         data.setmProductImages(mProductImageDTOS);
